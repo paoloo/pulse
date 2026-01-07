@@ -4,8 +4,9 @@
 # Makefile - Pulse hosted unit tests (GCC)
 #
 # Usage:
-#   make
-#   make run
+#   make				  # builds all tests
+#   make run			  # runs all tests
+#   make <target>		  # builds specific target: test_pulse or test_telemetry
 #   make clean
 #
 # Override compile-time config, e.g.:
@@ -16,10 +17,16 @@ CSTD    := -std=c11
 CWARN   := -Wall -Wextra -Wpedantic
 COPT    := -O0 -g0
 CDEFS   ?=
-CFLAGS  := $(CSTD) $(CWARN) $(COPT) $(CDEFS)
 
-TARGET  := test_pulse
-SRCS    := test/test_pulse.c
+INCLUDES := -Isrc
+
+CFLAGS  := $(CSTD) $(CWARN) $(COPT) $(CDEFS) $(INCLUDES)
+
+TEST_PULSE_TARGET     := test_pulse
+TEST_TELEMETRY_TARGET := test_telemetry
+
+TEST_PULSE_SRCS       := test/test_pulse.c
+TEST_TELEMETRY_SRCS   := test/test_telemetry.c
 
 HEADERS := \
 	src/pulse.h \
@@ -28,17 +35,22 @@ HEADERS := \
 
 .PHONY: all run clean
 
-all: $(TARGET)
+all: $(TEST_PULSE_TARGET) $(TEST_TELEMETRY_TARGET)
 
-$(TARGET): $(SRCS) $(HEADERS)
-	$(CC) $(CFLAGS) $(SRCS) -o $(TARGET)
+$(TEST_PULSE_TARGET): $(TEST_PULSE_SRCS) $(HEADERS)
+	$(CC) $(CFLAGS) $(TEST_PULSE_SRCS) -o $(TEST_PULSE_TARGET)
 
-run: $(TARGET)
-	./$(TARGET)
+$(TEST_TELEMETRY_TARGET): $(TEST_TELEMETRY_SRCS) $(HEADERS)
+	$(CC) $(CFLAGS) $(TEST_TELEMETRY_SRCS) -o $(TEST_TELEMETRY_TARGET)
+
+run: all
+	./$(TEST_PULSE_TARGET)
+	./$(TEST_TELEMETRY_TARGET)
 
 clean:
-	rm -f $(TARGET)
-	rm -rf $(TARGET).dSYM
+	rm -f $(TEST_PULSE_TARGET) $(TEST_TELEMETRY_TARGET)
+	rm -rf $(TEST_PULSE_TARGET).dSYM $(TEST_TELEMETRY_TARGET).dSYM
+
 
 # ---- Notes for MCU builds (not executed) ----
 # AVR example (you'll need avr-gcc toolchain):

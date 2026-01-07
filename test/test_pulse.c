@@ -1,4 +1,8 @@
-/* test_pulse.c - Hosted unit tests for pulse.h (GCC) */
+/*
+ * Copyright (c) 2026 Paolo Oliveira. All rights reserved.
+ * Licensed under the MIT License. See LICENSE file in the project root for details.
+ * test_pulse.c - Hosted unit tests for pulse.h (GCC)
+ */
 
 #include <assert.h>
 #include <stdint.h>

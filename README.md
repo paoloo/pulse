@@ -144,7 +144,6 @@ to cite this project:
 ```bibtex
 @software{Pulse2026,
   author = {Oliveira, Paolo},
-  doi = {0.0/y.z},
   month = {1},
   title = {{Pulse: A tiny cooperative real-time scheduler for microcontrollers}},
   url = {https://github.com/paoloo/pulse},

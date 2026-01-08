@@ -15,7 +15,7 @@ affiliations:
   - name: University of Fortaleza, Brazil
     index: 1
 date: 2026-01-07
-bibliography: pulse_refs.bib
+bibliography: paper.bib
 ---
 
 ## Summary

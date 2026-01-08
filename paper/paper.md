@@ -32,7 +32,23 @@ Educational minimal schedulers such as RIOS demonstrate that useful periodic sch
 
 **Pulse** addresses this gap by providing a scheduler that preserves the simplicity expected in deeply constrained systems, while explicitly enforcing that application code does **not** execute in interrupt context. This design choice improves timing robustness, simplifies testing, and supports mission-critical software assurance activities.
 
-## Design and implementation
+## State of the field
+
+A wide range of software frameworks exists for task scheduling in embedded systems. Full-featured real-time operating systems such as FreeRTOS and RTEMS provide preemptive multitasking, dynamic task management, and rich inter-process communication primitives. These systems are well suited for complex applications, but their size and behavioral complexity can be a drawback in environments with tight resource and assurance constraints.
+
+At the other end of the spectrum, many embedded systems rely on ad hoc superloop architectures. While simple, such designs often lack explicit scheduling semantics and can become difficult to analyze and maintain as system complexity grows.
+
+Minimal schedulers such as RIOS demonstrate that useful periodic scheduling can be achieved with a small codebase. However, many minimal approaches execute application logic directly in interrupt context or rely on implicit timing assumptions, complicating worst-case execution time analysis.
+
+Pulse occupies a middle ground between these approaches. It offers explicit periodic scheduling semantics and a well-defined task lifecycle, while remaining small enough to be fully audited. Its strict separation between interrupt-time bookkeeping and application-level execution distinguishes it from both ad hoc superloops and many minimal schedulers, providing a clear build-versus-contribute justification.
+
+## Software Design
+
+The design of **Pulse** is driven by the needs of resource-constrained and safety-oriented embedded systems, where predictability and analyzability are more important than maximizing concurrency or throughput. Several deliberate trade-offs shape the architecture of the scheduler.
+
+**Pulse** uses cooperative rather than preemptive task execution. This choice avoids the complexity of context switching and priority inversion, and makes control flow easier to analyze. Application code is never executed in interrupt context; interrupt handlers are restricted to bounded bookkeeping operations. This separation simplifies worst-case execution time analysis and reduces the risk of hard-to-debug timing faults.
+
+Tasks are registered statically at system startup and are not created or destroyed at runtime. This static configuration eliminates dynamic memory usage and enables the entire scheduling behavior to be reasoned about at compile time.
 
 **Pulse** follows a deliberately simple lifecycle that separates configuration, timekeeping, and execution.
 
@@ -108,6 +124,15 @@ The strict separation between interrupt-level bookkeeping and application-level 
 ## Limitations
 
 **Pulse** intentionally omits preemption, dynamic task management, and built-in IPC mechanisms. These omissions are deliberate and reflect the scheduler’s focus on simplicity, predictability, and analyzability rather than general-purpose multitasking.
+
+## Research impact Statement
+
+Pulse is released as open-source software with comprehensive documentation, design rationale, and reproducible hosted tests. While the project is in its early stages of dissemination, it targets a clearly defined and active research and engineering community working on small satellites and safety-oriented embedded
+systems.
+
+The software includes unit tests that validate scheduling behavior and telemetry-oriented data-sharing patterns, supporting reproducible experimentation and evaluation. The explicit design documentation and conservative coding style make Pulse suitable as a reference implementation for research, education, and future mission prototypes.
+
+Given the increasing interest in PocketQube and other low-cost satellite platforms, Pulse provides a practical foundation for near-term use in academic projects, technology demonstrators, and teaching environments focused on deterministic embedded systems.
 
 ## Conclusion
 

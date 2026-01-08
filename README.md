@@ -1,5 +1,7 @@
 # Pulse
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.18187657.svg)](https://doi.org/10.5281/zenodo.18187657)
+
 Pulse is a minimal, deterministic scheduler for periodic tasks on resource-constrained microcontrollers. It is designed with a strong emphasis on analyzability, predictability, and safety-oriented software practices, making it well suited for PocketQube and CubeSat flight software as well as other deeply embedded systems.
 
 Pulse is implemented as a small header-only C library. It avoids dynamic memory allocation, context switching, and execution of application code in interrupt context.
@@ -143,8 +145,9 @@ MIT
 to cite this project:
 ```bibtex
 @software{Pulse2026,
-  author = {Oliveira, Paolo},
+  author = {Oliveira, J. Paolo C. M.},
   month = {1},
+  doi = {10.5281/zenodo.18187657},
   title = {{Pulse: A tiny cooperative real-time scheduler for microcontrollers}},
   url = {https://github.com/paoloo/pulse},
   version = {0.1.0},
